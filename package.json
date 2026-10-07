@@ -1,0 +1,14 @@
+{
+  "name": "blood-ledger",
+  "version": "1.0.0",
+  "description": "献血登记-成分制备-血库发放 一体化血品账（支持离线合并、复检待定、冲突登记、发放追回）",
+  "type": "module",
+  "scripts": {
+    "start": "node src/main.mjs",
+    "test": "node scripts/test-scenarios.mjs"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "sql.js": "^1.10.3"
+  }
+}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>血品账 · 献血-制备-发放一体化</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>血品账</h1>
+  <p class="subtitle">献血登记 → 成分制备 → 血库发放 一体化台账（离线合并 · 复检待定 · 冲突登记 · 发放追回）</p>
+  <div id="summary" class="summary"></div>
+</header>
+
+<nav class="tabs">
+  <button data-tab="inventory" class="active">血库存量</button>
+  <button data-tab="donations">献血登记</button>
+  <button data-tab="merge">离线合并</button>
+  <button data-tab="issues">发放</button>
+  <button data-tab="recalls">追回 <span id="recall-badge" class="badge hidden">0</span></button>
+  <button data-tab="conflicts">冲突 <span id="conflict-badge" class="badge hidden">0</span></button>
+</nav>
+
+<main>
+  <!-- 库存 -->
+  <section id="tab-inventory" class="tab active">
+    <div class="toolbar">
+      <h2>血库存量（按成分 + 效期）</h2>
+      <button onclick="loadInventory()">刷新</button>
+    </div>
+    <table id="inventory-table">
+      <thead><tr><th>成分</th><th>效期</th><th>状态</th><th>可用量</th><th>总量</th><th>批次</th><th>备注</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- 献血登记 -->
+  <section id="tab-donations" class="tab">
+    <div class="toolbar">
+      <h2>献血登记</h2>
+      <button onclick="loadDonations()">刷新</button>
+    </div>
+
+    <form id="donation-form" class="card form">
+      <h3>新登记（在线）</h3>
+      <div class="grid">
+        <label>献血码 <input name="donation_code" placeholder="如 X20261007001" required></label>
+        <label>献血者 <input name="donor_name" placeholder="选填"></label>
+        <label>采血点 <input name="collection_point" placeholder="如 中心广场采血车" required></label>
+        <label>采血日期 <input name="collected_at" type="date" required></label>
+        <label>初检血型
+          <select name="initial_blood_type">
+            <option value="">未检</option>
+            <option>A</option><option>B</option><option>O</option><option>AB</option>
+          </select>
+        </label>
+      </div>
+      <button type="submit">登记</button>
+    </form>
+
+    <div id="donation-list"></div>
+  </section>
+
+  <!-- 离线合并 -->
+  <section id="tab-merge" class="tab">
+    <div class="toolbar">
+      <h2>离线记录合并（回站按献血码合并，中断可重试，重复上传不重复建成分）</h2>
+      <button onclick="loadBatches()">刷新</button>
+    </div>
+
+    <form id="merge-form" class="card form">
+      <h3>上传离线批次</h3>
+      <div class="grid">
+        <label>批次号 batch_id <input name="batch_id" placeholder="如 BATCH-20261007-01" required></label>
+        <label>客户端 client_id <input name="client_id" placeholder="如 采血车-03" required></label>
+      </div>
+      <label>记录（JSON 数组，type=donation 或 test_result）
+        <textarea name="records" rows="8" placeholder='[{"client_record_id":"r1","type":"donation","payload":{"donation_code":"X20261007002","collection_point":"采血车-03","collected_at":"2026-10-07","initial_blood_type":"A"}}]' required></textarea>
+      </label>
+      <button type="submit">上传合并</button>
+      <button type="button" class="secondary" onclick="fillMergeExample()">填入示例</button>
+    </form>
+
+    <div id="batch-list"></div>
+  </section>
+
+  <!-- 发放 -->
+  <section id="tab-issues" class="tab">
+    <div class="toolbar">
+      <h2>血库发放</h2>
+      <button onclick="loadIssues()">刷新</button>
+    </div>
+
+    <form id="issue-form" class="card form">
+      <h3>开发放单</h3>
+      <label>医院 <input name="hospital" placeholder="如 市第一医院" required></label>
+      <div id="issue-items"></div>
+      <button type="button" class="secondary" onclick="addIssueItem()">加一行</button>
+      <button type="submit">发放</button>
+      <p class="hint">只可发放“合格”成分；待定 / 失效 / 过期 / 追回中的成分不许发放。</p>
+    </form>
+
+    <div id="issue-list"></div>
+  </section>
+
+  <!-- 追回 -->
+  <section id="tab-recalls" class="tab">
+    <div class="toolbar">
+      <h2>发放追回（复检结论变更后，按发放单对账追回）</h2>
+      <button onclick="loadRecalls()">刷新</button>
+    </div>
+    <table id="recall-table">
+      <thead><tr><th>成分</th><th>献血码</th><th>发放单</th><th>医院</th><th>数量</th><th>原因</th><th>状态</th><th>操作</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- 冲突 -->
+  <section id="tab-conflicts" class="tab">
+    <div class="toolbar">
+      <h2>登记冲突（同一献血码只收先登记的，晚到的列这里）</h2>
+      <button onclick="loadConflicts()">刷新</button>
+    </div>
+    <table id="conflict-table">
+      <thead><tr><th>献血码</th><th>晚到采血点</th><th>献血者</th><th>原因</th><th>发现时间</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>

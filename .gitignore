@@ -36,3 +36,6 @@ coverage/
 .vscode/
 __pycache__/
 *.py[cod]
+
+# 血品账运行数据
+data/

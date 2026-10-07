@@ -1,0 +1,63 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #f4f6f9; color: #2c3e50; padding: 20px; }
+header { max-width: 1200px; margin: 0 auto 16px; }
+header h1 { color: #c0392b; font-size: 28px; }
+.subtitle { color: #7f8c8d; margin: 4px 0 12px; font-size: 14px; }
+.summary { display: flex; gap: 10px; flex-wrap: wrap; }
+.summary .chip { background: #fff; border: 1px solid #dfe4ea; border-radius: 16px; padding: 4px 14px; font-size: 13px; }
+.summary .chip b { color: #c0392b; }
+
+.tabs { max-width: 1200px; margin: 0 auto 16px; display: flex; gap: 6px; flex-wrap: wrap; }
+.tabs button { padding: 8px 18px; border: 1px solid #dfe4ea; background: #fff; border-radius: 8px 8px 0 0; cursor: pointer; font-size: 14px; }
+.tabs button.active { background: #c0392b; color: #fff; border-color: #c0392b; }
+.badge { display: inline-block; background: #e74c3c; color: #fff; border-radius: 10px; padding: 0 7px; font-size: 12px; margin-left: 4px; }
+.hidden { display: none !important; }
+
+main { max-width: 1200px; margin: 0 auto; }
+.tab { display: none; }
+.tab.active { display: block; }
+.toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.toolbar h2 { font-size: 18px; }
+.toolbar button { padding: 6px 14px; border: 1px solid #dfe4ea; background: #fff; border-radius: 6px; cursor: pointer; }
+
+.card { background: #fff; border: 1px solid #dfe4ea; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+.form h3 { margin-bottom: 12px; font-size: 16px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 10px; }
+.form label { display: block; font-size: 13px; color: #57606f; margin-bottom: 8px; }
+.form input, .form select, .form textarea { width: 100%; padding: 7px 9px; border: 1px solid #ced6e0; border-radius: 6px; font-size: 14px; margin-top: 3px; font-family: inherit; }
+.form textarea { font-family: monospace; font-size: 12px; }
+.form button { padding: 8px 20px; background: #c0392b; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; margin-right: 8px; }
+.form button.secondary { background: #7f8c8d; }
+.hint { font-size: 12px; color: #e67e22; margin-top: 8px; }
+
+table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #dfe4ea; border-radius: 8px; overflow: hidden; }
+th, td { padding: 8px 10px; text-align: left; font-size: 13px; border-bottom: 1px solid #f1f2f6; }
+th { background: #f8f9fa; color: #57606f; font-weight: 600; }
+tr:last-child td { border-bottom: none; }
+
+.status { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; }
+.status.pending { background: #fff3cd; color: #856404; }
+.status.valid { background: #d4edda; color: #155724; }
+.status.invalid { background: #f8d7da; color: #721c24; }
+.status.issued { background: #d1ecf1; color: #0c5460; }
+.status.recalled { background: #f5c6cb; color: #721c24; font-weight: 600; }
+.status.expired { background: #e2e3e5; color: #383d41; }
+.status.reconciled { background: #d4edda; color: #155724; }
+.status.conflict { background: #f8d7da; color: #721c24; }
+.status.applied { background: #d4edda; color: #155724; }
+.status.skipped { background: #e2e3e5; color: #383d41; }
+
+.donation-card { background: #fff; border: 1px solid #dfe4ea; border-radius: 8px; padding: 14px; margin-bottom: 12px; }
+.donation-card h4 { font-size: 15px; margin-bottom: 6px; }
+.donation-card .meta { font-size: 13px; color: #57606f; margin-bottom: 8px; }
+.donation-card .actions { margin: 8px 0; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.donation-card button { padding: 5px 12px; border: 1px solid #c0392b; color: #c0392b; background: #fff; border-radius: 6px; cursor: pointer; font-size: 13px; }
+.donation-card button.primary { background: #c0392b; color: #fff; }
+.donation-card .test-form { display: flex; gap: 6px; align-items: center; font-size: 13px; }
+.donation-card .test-form select { padding: 5px; border: 1px solid #ced6e0; border-radius: 6px; }
+.mini { font-size: 12px; color: #7f8c8d; }
+.recall-reason { max-width: 360px; }
+
+.toast { position: fixed; top: 20px; right: 20px; background: #2c3e50; color: #fff; padding: 12px 18px; border-radius: 8px; font-size: 14px; z-index: 999; max-width: 420px; box-shadow: 0 4px 12px rgba(0,0,0,.2); }
+.toast.error { background: #c0392b; }
+.toast.success { background: #27ae60; }
